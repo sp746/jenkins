@@ -6,7 +6,7 @@
     <artifactId>selenium-framework</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Selenium Automation Framework</name>
-    
+
     <!-- Build Configuration -->
     <build>
         <plugins>
@@ -21,22 +21,38 @@
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
-            
+
             <!-- SonarQube Scanner Plugin -->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.9.1.2184</version>
             </plugin>
+
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <fork>true</fork>
+                    <compilerArgs>
+                        <arg>--add-opens</arg>
+                        <arg>jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    
+
     <!-- Properties -->
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-    
+
     <!-- Dependencies -->
     <dependencies>
         <!-- Selenium -->
@@ -45,7 +61,7 @@
             <artifactId>selenium-java</artifactId>
             <version>4.10.0</version>
         </dependency>
-        
+
         <!-- TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
@@ -53,35 +69,35 @@
             <version>7.7.1</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- WebDriver Manager -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.5.3</version>
         </dependency>
-        
+
         <!-- Extent Reports -->
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
             <version>5.0.9</version>
         </dependency>
-        
+
         <!-- Apache Commons IO (for file handling) -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
         </dependency>
-        
+
         <!-- Jackson (JSON Parsing) -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.15.2</version>
         </dependency>
-        
+
         <!-- SLF4J (Logging) -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -93,26 +109,34 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.9</version>
         </dependency>
-        
+
         <!-- AssertJ for Fluent Assertions -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.24.2</version>
         </dependency>
-        
+
         <!-- Docker Integration -->
         <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java</artifactId>
             <version>3.3.0</version>
         </dependency>
-        
+
         <!-- Allure Report (Optional) -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
             <version>2.20.1</version>
+        </dependency>
+
+        <!-- Lombok (add this to resolve IllegalAccessError) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
