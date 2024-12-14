@@ -2,33 +2,37 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven'  // Use the Maven version configured in Jenkins
-        jdk 'Java'     // Use the JDK configured in Jenkins
+        maven 'Maven'  // Ensure Maven is configured in Global Tool Configuration
+        jdk 'Java'     // Ensure JDK is configured in Global Tool Configuration
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'master', url: 'https://github.com/sp746/jenkins.git'
+                git branch: 'main', url: 'https://github.com/sp746/jenkins.git'
             }
         }
+
         stage('Build and Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn clean test'  // Use Windows-compatible command
+            }
+        }
+
+        stage('Publish Reports') {
+            steps {
+                publishHTML(target: [
+                    reportDir: 'target/extent-reports',
+                    reportFiles: 'index.html',
+                    reportName: 'Extent Reports'
+                ])
             }
         }
     }
 
     post {
         always {
-            publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'target/extent-reports',
-                reportFiles: 'index.html',
-                reportName: 'ExtentReports'
-            ])
+            cleanWs()  // Clean workspace after the build
         }
     }
 }
