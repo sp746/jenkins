@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                bat 'mvn clean test'  // Use Windows-compatible command
+                bat 'mvn test'  // Use Windows-compatible command
             }
         }
 
