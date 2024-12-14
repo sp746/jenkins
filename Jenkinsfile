@@ -1,25 +1,34 @@
 pipeline {
     agent any
+
+    tools {
+        maven 'Maven'  // Use the Maven version configured in Jenkins
+        jdk 'Java'     // Use the JDK configured in Jenkins
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                git 'https://github.com/your-repo.git'
+                git branch: 'master', url: 'https://github.com/sp746/jenkins.git'
             }
         }
-        stage('Build') {
+        stage('Build and Test') {
             steps {
-                sh 'mvn clean install'
+                sh 'mvn clean test'
             }
         }
-        stage('Execute Tests') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-        stage('Publish Reports') {
-            steps {
-                archiveArtifacts artifacts: 'target/extent-reports.html'
-            }
+    }
+
+    post {
+        always {
+            publishHTML([
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'target/extent-reports',
+                reportFiles: 'index.html',
+                reportName: 'ExtentReports'
+            ])
         }
     }
 }
